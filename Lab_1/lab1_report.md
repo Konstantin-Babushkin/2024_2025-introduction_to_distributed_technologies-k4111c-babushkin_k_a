@@ -7,12 +7,12 @@ Group: K4111c
 Author: Babushkin Konstantin Alekseevich
 Lab: Lab1
 Date of create: 14.11.2024
-Date of finished: 14.11.2024
+Date of finished: X
 
 ---
 # 1. Подготовка рабочей станции
 
-Для выполнения лабораторной работы требуется установить пакет программных обеспечений, таких как docker и minikube.
+Для выполнения лабораторной работы требуется установить docker и minikube.
 
 ### Docker
 
@@ -41,9 +41,9 @@ apt-cache policy docker-ce
 ```
 docker-ce:
   Installed: (none)
-  Candidate: 5:19.03.9~3-0~ubuntu-focal
+  Candidate: 5:27.3.1-1~ubuntu.20.04~focal
   Version table:
-     5:19.03.9~3-0~ubuntu-focal 500
+     5:27.3.1-1~ubuntu.20.04~focal 500
         500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
 ```
 Далее устанавливаем сам docker:
@@ -56,16 +56,17 @@ sudo systemctl status docker
 ```
 
 ```
-Output● docker.service - Docker Application Container Engine
-     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
-     Active: active (running) since Tue 2020-05-19 17:00:41 UTC; 17s ago
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2024-11-14 19:32:18 MSK; 9s ago
 TriggeredBy: ● docker.socket
        Docs: https://docs.docker.com
-   Main PID: 24321 (dockerd)
-      Tasks: 8
-     Memory: 46.4M
+   Main PID: 11572 (dockerd)
+      Tasks: 14
+     Memory: 21.0M (peak: 22.8M)
+        CPU: 1.259s
      CGroup: /system.slice/docker.service
-             └─24321 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+             └─11572 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
 ```
 
 В результате данных манипуляций в системе был установлен docker. Но его использование будет требовать постоянных sudo полномочий. Для того чтобы использовать docker без них, требуется использовать следующий набор команд для добавления текущего пользователя в привилегированную группу:
@@ -77,9 +78,9 @@ sudo usermod -aG docker ${USER}
 su - ${USER}
 ```
 
-После использования данных команд требуется произвести повторную авторизацию текущего пользователя в системе, после чего docker будет успешно установлен
+Далее нужно повторнр авторизовать текущего пользователя в системе, после чего docker будет успешно установлен
 
-*Оригинальная инструкция взята с ресурса [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)*
+*Оригинальная инструкция взята из [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)*
 
 ### Minikube
 
@@ -117,11 +118,17 @@ spec:
       - containerPort: 8200
 ```
 
+Запустим minikube
+```
+minikube start
+```
+
 Для создания пода применим команду:
 ```
 kubectl apply -f vault.yml
 ```
 
+Вывод:
 ```
 pod/hashi-vault created
 ```
@@ -131,6 +138,7 @@ pod/hashi-vault created
 minikube kubectl -- expose pod hashi-vault --type=NodePort --port=8200
 ```
 
+Вывод:
 ```
 service/hashi-vault exposed
 ```
@@ -172,8 +180,8 @@ You may need to set the following environment variables:
 The unseal key and root token are displayed below in case you want to
 seal/unseal the Vault or re-authenticate.
 
-Unseal Key: lmXYKu8Qu3wNT5kBmHd5M8/65Efpf43F0vyxPgB+cPk=
-Root Token: hvs.4RJKijScVURpxTTIIsck5EvA
+Unseal Key: F/IUMgqtn3ZGHhBcUQRuG7o0OraV8gQ215ZUXMoPKYs=
+Root Token: hvs.QR6aW7fxj8RLiJrevDYNBUF0
 
 Development mode should NOT be used in production installations!
 ```
@@ -182,7 +190,7 @@ Development mode should NOT be used in production installations!
 
 В результате была получена следующая схема
 
-![[lab1.png]]
+![[lab1.drawio.png]]
 
 # Вывод
 
