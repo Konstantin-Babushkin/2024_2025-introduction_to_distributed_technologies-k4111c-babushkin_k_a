@@ -150,7 +150,8 @@ minikube kubectl -- port-forward service/hashi-vault 8200:8200
 
 После чего мы сможем зайти в админ панель приложения через http://localhost:8200/
 
-![[Pasted image 20241102132636.png]]
+![image](./content/1.png)
+![image](./content/2.png)
 
 Далее требуется найти ключ, первоначально он создается при создании пода, поэтому обратимся к логам:
 ```
@@ -190,7 +191,7 @@ Development mode should NOT be used in production installations!
 
 В результате была получена следующая схема
 
-![[lab1.drawio.png]]
+![image](./content/lab1.drawio.png)
 
 # Вывод
 
